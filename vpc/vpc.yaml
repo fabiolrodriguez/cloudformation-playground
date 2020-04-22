@@ -7,27 +7,58 @@ Resources:
       Tags:
         - Key: Name
           Value: MyVPC
-  EC2Instance: 
-    Type: AWS::EC2::Instance
+
+  Pubsubnet:
+    Type: AWS::EC2::Subnet
     Properties:
-      InstanceType: "t2.micro"
-      SecurityGroups: [!Ref 'InstanceSecurityGroup']
-      ImageId: "ami-062f7200baf2fa504"
-      KeyName: "teste"
-      VpcId: !Ref 'myVPC'
-      BlockDeviceMappings: 
-      - DeviceName: "/dev/sdm"
-        Ebs: 
-          VolumeType: "gp2"
-          DeleteOnTermination: "true"
-          VolumeSize: "8"
-  InstanceSecurityGroup:
-    Type: AWS::EC2::SecurityGroup
+      AvailabilityZone: us-east-1
+      VpcId: !Ref myVPC
+      CidrBlock: 10.10.1.0/24
+      Tags:
+        - Key: Name
+          Value: Pubsubnet
+
+  Privsubnet:
+    Type: AWS::EC2::Subnet
     Properties:
-      GroupDescription: Enable SSH access via port 22
-      SecurityGroupIngress:
-      VpcId: !Ref 'myVPC'
-      - IpProtocol: tcp
-        FromPort: 22
-        ToPort: 22
-        CidrIp: "0.0.0.0/0"
+      AvailabilityZone: us-east-1
+      VpcId: !Ref myVPC
+      CidrBlock: 10.10.2.0/24
+      Tags:
+        - Key: Name
+          Value: Privsubnet
+
+  igwName:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: IG
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref myVPC
+      InternetGatewayId: !Ref igwName
+
+  IGAcc:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref myVPC
+      Tags:
+        - Key: Name
+          Value: IGAcc
+  
+  routeTableAssocIG:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref Pubsubnet
+      RouteTableId: !Ref IGAcc
+
+  IntAcc:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref IGAcc
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref igwName
+
+  
