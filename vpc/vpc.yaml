@@ -14,7 +14,7 @@ Resources:
   Pubsubnet:
     Type: AWS::EC2::Subnet
     Properties:
-      AvailabilityZone: us-east-1
+      AvailabilityZone: us-east-1a
       VpcId: !Ref myVPC
       CidrBlock: 10.10.1.0/24
       Tags:
@@ -24,7 +24,7 @@ Resources:
   Privsubnet:
     Type: AWS::EC2::Subnet
     Properties:
-      AvailabilityZone: us-east-1
+      AvailabilityZone: us-east-1a
       VpcId: !Ref myVPC
       CidrBlock: 10.10.2.0/24
       Tags:
