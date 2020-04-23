@@ -1,3 +1,6 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Simple VPC example
+
 Resources: 
   myVPC:
     Type: AWS::EC2::VPC
@@ -61,4 +64,15 @@ Resources:
       DestinationCidrBlock: 0.0.0.0/0
       GatewayId: !Ref igwName
 
+Outputs:
+  VpcId:
+      Description: ID of created VPC
+      Value: !Ref myVPC
   
+  PubsubnetId:
+      Description: ID of public subnet
+      Value: !Ref Pubsubnet
+  
+  PrivsubnetId:
+      Description: ID of private subnet
+      Value: !Ref Privsubnet
