@@ -1,12 +1,27 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: example template of EC2 features
 
-Resources: 
+Resources:
+
+  InstanceSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable SSH access via port 22 and 80
+      VpcId: !ImportValue 'VpcId'
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 22
+        ToPort: 22
+        CidrIp: "0.0.0.0/0"
+      - IpProtocol: tcp
+        FromPort: 80
+        ToPort: 80
+        CidrIp: "0.0.0.0/0"
+
   EC2Instance: 
     Type: AWS::EC2::Instance
     Properties:
       InstanceType: "t2.micro"
-      SecurityGroups: [!Ref 'InstanceSecurityGroup']
       ImageId: "ami-062f7200baf2fa504"
       KeyName: "testeec2"
       BlockDeviceMappings: 
@@ -20,7 +35,7 @@ Resources:
           DeviceIndex: "0"
           GroupSet: 
             - !GetAtt "InstanceSecurityGroup.GroupId"
-          SubnetId: !GetAtt "Pubsubnet"
+          SubnetId: !ImportValue "PubsubnetId"
       UserData:
         Fn::Base64:
           !Sub |
@@ -30,25 +45,11 @@ Resources:
             systemctl start httpd
             systemctl enable httpd
 
-  InstanceSecurityGroup:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: Enable SSH access via port 22 and 80
-      SecurityGroupIngress:
-      - IpProtocol: tcp
-        FromPort: 22
-        ToPort: 22
-        CidrIp: "0.0.0.0/0"
-      - IpProtocol: tcp
-        FromPort: 80
-        ToPort: 80
-        CidrIp: "0.0.0.0/0"
-
   MyEIP:
       Type: AWS::EC2::EIP
       Properties:
         InstanceId: !Ref EC2Instance
-        Domain: !GetAtt 'myVPC'
+        Domain: !ImportValue 'VpcId'
     
 Outputs:
   PublicIP:

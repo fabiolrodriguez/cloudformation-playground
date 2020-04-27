@@ -68,11 +68,17 @@ Outputs:
   VpcId:
       Description: ID of created VPC
       Value: !Ref myVPC
+      Export:
+        Name: VpcId
   
   PubsubnetId:
       Description: ID of public subnet
       Value: !Ref Pubsubnet
+      Export:
+        Name: PubsubnetId
   
   PrivsubnetId:
       Description: ID of private subnet
       Value: !Ref Privsubnet
+      Export:
+        Name: PrivsubnetId
