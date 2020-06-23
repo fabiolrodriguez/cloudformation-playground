@@ -59,8 +59,8 @@ Resources:
       VpcId: !ImportValue VpcId
       SecurityGroupIngress:
       - IpProtocol: tcp
-        FromPort: 3600
-        ToPort: 3600
+        FromPort: 3306
+        ToPort: 3306
         SourceSecurityGroupId: !ImportValue WPSG
     
   DBInstance: 
