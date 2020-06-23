@@ -64,14 +64,6 @@ Resources:
       DestinationCidrBlock: 0.0.0.0/0
       GatewayId: !Ref igwName
 
-# Nested stack
-  Wordpress:
-    Type: "AWS::CloudFormation::Stack"
-    Properties:
-      TemplateURL: https://cfplay.s3.amazonaws.com/ec2.yaml
-      TimeoutInMinutes: 5
-    DependsOn: myVPC
-
 Outputs:
   VpcId:
       Description: ID of created VPC
