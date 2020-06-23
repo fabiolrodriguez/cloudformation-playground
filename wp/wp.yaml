@@ -20,5 +20,5 @@ Resources:
     Type: "AWS::CloudFormation::Stack"
     Properties:
       TemplateURL: https://cfplay.s3.amazonaws.com/rds.yaml
-      TimeoutInMinutes: 5
+      TimeoutInMinutes: 15
     DependsOn: EC2

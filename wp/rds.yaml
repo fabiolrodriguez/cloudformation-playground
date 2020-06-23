@@ -51,7 +51,7 @@ Resources:
       SubnetIds: 
         - !ImportValue PrivsubnetId
         - !ImportValue PrivsubnetId2
-        
+
   DatabaseSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
@@ -90,4 +90,10 @@ Resources:
       VPCSecurityGroups:
       - !Ref DatabaseSecurityGroup
     Type: "AWS::RDS::DBInstance"
+
+  DBEndpoint:
+    Description: 'The connection endpoint for the DB'
+    Value: !GetAtt 'DBInstance.Endpoint.Address'
+    Export:
+      Name: DBEndpoint
     
