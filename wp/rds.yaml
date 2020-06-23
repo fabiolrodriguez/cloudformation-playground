@@ -47,13 +47,14 @@ Resources:
   DatabaseSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
-      GroupDescription: !Ref 'AWS::StackName'
+      GroupDescription: 'SG DB'
       VpcId: !ImportValue VpcId
       SecurityGroupIngress:
       - IpProtocol: tcp
         FromPort: 5432
         ToPort: 5432
         SourceSecurityGroupId: !ImportValue WPSG
+  
   DBSubnetGroup:
     Type: 'AWS::RDS::DBSubnetGroup'
     Properties:
@@ -61,6 +62,7 @@ Resources:
       SubnetIds: 
         - !ImportValue PrivsubnetId
         - !ImportValue PrivsubnetId2
+  
   DBInstance: 
     DeletionPolicy: Snapshot
     Properties:
