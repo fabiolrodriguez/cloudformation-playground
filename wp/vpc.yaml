@@ -34,7 +34,7 @@ Resources:
   Privsubnet2:
     Type: AWS::EC2::Subnet
     Properties:
-      AvailabilityZone: us-east-1a
+      AvailabilityZone: us-east-1b
       VpcId: !Ref myVPC
       CidrBlock: 10.10.3.0/24
       Tags:
