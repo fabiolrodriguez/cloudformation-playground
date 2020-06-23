@@ -1,0 +1,68 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: example template of EC2 features
+
+Resources:
+
+  InstanceSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable SSH access via port 22 and 80
+      VpcId: !ImportValue 'VpcId'
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 22
+        ToPort: 22
+        CidrIp: "0.0.0.0/0"
+      - IpProtocol: tcp
+        FromPort: 80
+        ToPort: 80
+        CidrIp: "0.0.0.0/0"
+
+  EC2Instance: 
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: "t2.micro"
+      ImageId: "ami-062f7200baf2fa504"
+      KeyName: "testeec2"
+      BlockDeviceMappings: 
+      - DeviceName: "/dev/sdm"
+        Ebs: 
+          VolumeType: "gp2"
+          DeleteOnTermination: "true"
+          VolumeSize: "8"
+      NetworkInterfaces: 
+        - AssociatePublicIpAddress: "true"
+          DeviceIndex: "0"
+          GroupSet: 
+            - !GetAtt "InstanceSecurityGroup.GroupId"
+          SubnetId: !ImportValue "PubsubnetId"
+      UserData:
+        Fn::Base64:
+          !Sub |
+            #!/bin/bash -xe
+            yum -y update
+            yum install httpd -y
+            wget https://wordpress.org/latest.tar.gz
+            tar -xzf latest.tar.gz
+            mv wordpress/* /var/www/html
+            systemctl start httpd
+            systemctl enable httpd
+            
+
+  MyEIP:
+      Type: AWS::EC2::EIP
+      Properties:
+        InstanceId: !Ref EC2Instance
+        Domain: !ImportValue 'VpcId'
+    
+Outputs:
+  PublicIP:
+    Description: Public IP address of the newly created EC2 instance
+    Value: !GetAtt [EC2Instance, PublicIp]
+    Export:
+        Name: PublicIP
+  WPSG:
+    Description: Public IP address of the newly created EC2 instance
+    Value: !Ref InstanceSecurityGroup
+    Export:
+        Name: WPSG  

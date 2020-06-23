@@ -1,0 +1,98 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: example template for Postgres RDS
+Mappings:
+  Config:
+    Service:
+      Name: wp-rds
+Parameters:
+  DBInstanceID:
+    Default: wprds
+    Description: My database instance
+    Type: String
+    MinLength: '1'
+    MaxLength: '63'
+    AllowedPattern: '[a-zA-Z][a-zA-Z0-9]*'
+    ConstraintDescription: >-
+      Must begin with a letter and must not end with a hyphen or contain two
+      consecutive hyphens.
+  DBName:
+    Default: wordpress
+    Description: My database
+    Type: String
+  DBUser:
+    Default: 'admin'
+    Type: String
+  DBPassword:
+    Default: 'myADM2029'
+    Type: String
+  DBidentifier: 
+    Default: 'wordpress'
+    Type: String
+  DBInstanceClass:
+    Default: db.t2.micro
+    Description: DB instance class
+    Type: String
+    ConstraintDescription: Must select a valid DB instance type.
+  DBAllocatedStorage:
+    Default: '20'
+    Description: The size of the database (GiB)
+    Type: Number
+    MinValue: '5'
+    MaxValue: '1024'
+    ConstraintDescription: must be between 20 and 65536 GiB.
+  DBidentifier: 
+    Default: 'wordpress'
+    Type: String
+Resources:
+  DatabaseSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: !Ref 'AWS::StackName'
+      VpcId: !ImportValue DefaultVPCId
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 5432
+        ToPort: 5432
+        SourceSecurityGroupId: !ImportValue WPSG
+  DBSubnetGroup:
+    Type: 'AWS::RDS::DBSubnetGroup'
+    Properties:
+      DBSubnetGroupDescription: 
+        - !Ref 'AWS::StackName'
+        - !FindInMap [Config, Service, Name]        
+      SubnetIds: 
+        - !ImportValue PrivsubnetId
+  DBInstance: 
+    Type: "AWS::RDS::DBInstance"
+    DeletionPolicy: Snapshot
+    Properties:
+      DBSubnetGroupName: !Ref DBSubnetGroup
+      AllocatedStorage: 
+        Ref: DBAllocatedStorage
+      DBInstanceClass: 
+        Ref: DBInstanceClass
+      DBName: 
+        Ref: DBName
+      Engine: mysql
+      EngineVersion: "8.0"
+      MasterUserPassword: 
+        Ref: DBPassword
+      MasterUsername: 
+        Ref: DBUser
+      DBInstanceIdentifier:
+        Ref: DBidentifier
+      PubliclyAccessible: "false"
+      MultiAZ: "false"
+      Tags: 
+        - 
+          Key: Name
+          Value: "PostgreSQL Database"
+      VPCSecurityGroups:
+      - !Ref DatabaseSecurityGroup
+    
+  
+  # Nested stack
+  Wordpress:
+    Type: "AWS::CloudFormation::Stack"
+      TemplateURL: file://ec2.yaml
+      TimeoutInMinutes: 5
