@@ -68,7 +68,7 @@ Resources:
   Wordpress:
     Type: "AWS::CloudFormation::Stack"
     Properties:
-      TemplateURL: file://ec2.yaml
+      TemplateURL: https://cfplay.s3.amazonaws.com/ec2.yaml
       TimeoutInMinutes: 5
 
 Outputs:
