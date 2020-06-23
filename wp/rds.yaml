@@ -48,12 +48,12 @@ Resources:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
       GroupDescription: !Ref 'AWS::StackName'
-      VpcId: !ImportValue DefaultVPCId
+      VpcId: !Ref myVPC
       SecurityGroupIngress:
       - IpProtocol: tcp
         FromPort: 5432
         ToPort: 5432
-        SourceSecurityGroupId: !ImportValue WPSG
+        SourceSecurityGroupId: !Ref InstanceSecurityGroup
   DBSubnetGroup:
     Type: 'AWS::RDS::DBSubnetGroup'
     Properties:
@@ -61,7 +61,7 @@ Resources:
         - !Ref 'AWS::StackName'
         - !FindInMap [Config, Service, Name]        
       SubnetIds: 
-        - !ImportValue PrivsubnetId
+        - !Ref Privsubnet
   DBInstance: 
     Type: "AWS::RDS::DBInstance"
     DeletionPolicy: Snapshot
