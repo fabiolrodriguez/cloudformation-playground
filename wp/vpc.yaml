@@ -31,6 +31,17 @@ Resources:
         - Key: Name
           Value: Privsubnet
 
+  Privsubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: us-east-1a
+      VpcId: !Ref myVPC
+      CidrBlock: 10.10.3.0/24
+      Tags:
+        - Key: Name
+          Value: Privsubnet2
+
+
   igwName:
     Type: AWS::EC2::InternetGateway
     Properties:
@@ -82,3 +93,9 @@ Outputs:
       Value: !Ref Privsubnet
       Export:
         Name: PrivsubnetId
+
+  PrivsubnetId2:
+      Description: ID of private subnet
+      Value: !Ref Privsubnet2
+      Export:
+        Name: PrivsubnetId2

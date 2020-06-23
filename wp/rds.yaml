@@ -60,8 +60,9 @@ Resources:
       DBSubnetGroupDescription: 
         - !Ref 'AWS::StackName'
         - !FindInMap [Config, Service, Name]        
-      SubnetId: 
+      SubnetIds: 
         - !ImportValue PrivsubnetId
+        - !ImportValue PrivsubnetId2
   DBInstance: 
     Type: "AWS::RDS::DBInstance"
     DeletionPolicy: Snapshot
