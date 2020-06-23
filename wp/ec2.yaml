@@ -7,7 +7,7 @@ Resources:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: Enable SSH access via port 22 and 80
-      VpcId: !Ref myVPC
+      VpcId: !ImportValue 'VpcId'
       SecurityGroupIngress:
       - IpProtocol: tcp
         FromPort: 22
@@ -35,7 +35,7 @@ Resources:
           DeviceIndex: "0"
           GroupSet: 
             - !GetAtt "InstanceSecurityGroup.GroupId"
-          SubnetId: !Ref Pubsubnet
+          SubnetId: !ImportValue "PubsubnetId"
       UserData:
         Fn::Base64:
           !Sub |
@@ -53,7 +53,7 @@ Resources:
     Type: AWS::EC2::EIP
     Properties:
       InstanceId: !Ref EC2Instance
-      Domain: !Ref myVPC
+      Domain: !ImportValue 'VpcId'
 
   # Nested stack
   Wordpress:
