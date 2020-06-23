@@ -62,7 +62,6 @@ Resources:
         - !ImportValue PrivsubnetId
         - !ImportValue PrivsubnetId2
   DBInstance: 
-    Type: "AWS::RDS::DBInstance"
     DeletionPolicy: Snapshot
     Properties:
       DBSubnetGroupName: !Ref DBSubnetGroup
@@ -88,4 +87,5 @@ Resources:
           Value: "PostgreSQL Database"
       VPCSecurityGroups:
       - !Ref DatabaseSecurityGroup
+    Type: "AWS::RDS::DBInstance"
     
