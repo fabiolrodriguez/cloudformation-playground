@@ -31,17 +31,20 @@ Resources:
           DeleteOnTermination: "true"
           VolumeSize: "8"
       NetworkInterfaces: 
-        - AssociatePublicIpAddress: "true"
+        - NetworkInterfaceId: "eth0"
+          AssociatePublicIpAddress: "true"
           DeviceIndex: "0"
           GroupSet: 
             - !GetAtt "InstanceSecurityGroup.GroupId"
           SubnetId: !ImportValue "PubsubnetId"
-          - AssociatePublicIpAddress: "false"
+        - NetworkInterfaceId: "eth1"
+          AssociatePublicIpAddress: "false"
           DeviceIndex: "1"
           GroupSet: 
             - !GetAtt "InstanceSecurityGroup.GroupId"
           SubnetId: !ImportValue "PrivsubnetId"
-          - AssociatePublicIpAddress: "false"
+        - NetworkInterfaceId: "eth2"
+          AssociatePublicIpAddress: "false"
           DeviceIndex: "2"
           GroupSet: 
             - !GetAtt "InstanceSecurityGroup.GroupId"
