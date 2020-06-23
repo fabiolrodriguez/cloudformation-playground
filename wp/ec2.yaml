@@ -54,14 +54,6 @@ Resources:
     Properties:
       InstanceId: !Ref EC2Instance
       Domain: !ImportValue 'VpcId'
-
-  # Nested stack
-  Wordpress:
-    Type: "AWS::CloudFormation::Stack"
-    Properties:
-      TemplateURL: https://cfplay.s3.amazonaws.com/rds.yaml
-      TimeoutInMinutes: 5
-    DependsOn: EC2Instance
     
 Outputs:
   PublicIP:
