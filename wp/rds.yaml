@@ -91,9 +91,10 @@ Resources:
       - !Ref DatabaseSecurityGroup
     Type: "AWS::RDS::DBInstance"
 
-  DBEndpoint:
-    Description: 'The connection endpoint for the DB'
-    Value: !GetAtt [DBInstance, Endpoint.Address]
-    Export:
-      Name: DBEndpoint
+  Outputs:
+    DBEndpoint:
+      Description: 'The connection endpoint for the DB'
+      Value: !GetAtt [DBInstance, Endpoint.Address]
+      Export:
+        Name: DBEndpoint
     
