@@ -44,6 +44,14 @@ Parameters:
     Default: 'wordpress'
     Type: String
 Resources:
+  DBSubnetGroup:
+    Type: 'AWS::RDS::DBSubnetGroup'
+    Properties:
+      DBSubnetGroupDescription: 'Wordpress DB'     
+      SubnetIds: 
+        - !ImportValue PrivsubnetId
+        - !ImportValue PrivsubnetId2
+        
   DatabaseSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
@@ -54,15 +62,7 @@ Resources:
         FromPort: 5432
         ToPort: 5432
         SourceSecurityGroupId: !ImportValue WPSG
-  
-  DBSubnetGroup:
-    Type: 'AWS::RDS::DBSubnetGroup'
-    Properties:
-      DBSubnetGroupDescription: 'Wordpress DB'     
-      SubnetIds: 
-        - !ImportValue PrivsubnetId
-        - !ImportValue PrivsubnetId2
-  
+    
   DBInstance: 
     DeletionPolicy: Snapshot
     Properties:
