@@ -61,7 +61,7 @@ Resources:
     Properties:
       TemplateURL: https://cfplay.s3.amazonaws.com/rds.yaml
       TimeoutInMinutes: 5
-    DependsOn: EC2Instance
+    DependsOn: WPSG
     
 Outputs:
   PublicIP:
