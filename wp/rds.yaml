@@ -54,13 +54,13 @@ Resources:
         FromPort: 5432
         ToPort: 5432
         SourceSecurityGroupId: !ImportValue WPSG
-  # DBSubnetGroup:
-  #   Type: 'AWS::RDS::DBSubnetGroup'
-  #   Properties:
-  #     DBSubnetGroupDescription: !Ref 'AWS::StackName'     
-  #     SubnetIds: 
-  #       - !ImportValue PrivsubnetId
-  #       - !ImportValue PrivsubnetId2
+  DBSubnetGroup:
+    Type: 'AWS::RDS::DBSubnetGroup'
+    Properties:
+      DBSubnetGroupDescription: 'Wordpress DB'     
+      SubnetIds: 
+        - !ImportValue PrivsubnetId
+        - !ImportValue PrivsubnetId2
   DBInstance: 
     DeletionPolicy: Snapshot
     Properties:
