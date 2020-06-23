@@ -60,7 +60,7 @@ Resources:
       DBSubnetGroupDescription: 
         - !Ref 'AWS::StackName'
         - !FindInMap [Config, Service, Name]        
-      SubnetIds: 
+      SubnetId: 
         - !ImportValue PrivsubnetId
   DBInstance: 
     Type: "AWS::RDS::DBInstance"
