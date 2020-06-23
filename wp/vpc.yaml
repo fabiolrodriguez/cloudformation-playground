@@ -1,0 +1,91 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Simple VPC example
+
+Resources: 
+  myVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.10.0.0/16
+      EnableDnsSupport: true
+      Tags:
+        - Key: Name
+          Value: MyVPC
+
+  Pubsubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: us-east-1a
+      VpcId: !Ref myVPC
+      CidrBlock: 10.10.1.0/24
+      Tags:
+        - Key: Name
+          Value: Pubsubnet
+
+  Privsubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: us-east-1a
+      VpcId: !Ref myVPC
+      CidrBlock: 10.10.2.0/24
+      Tags:
+        - Key: Name
+          Value: Privsubnet
+
+  igwName:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: IG
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref myVPC
+      InternetGatewayId: !Ref igwName
+
+  IGAcc:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref myVPC
+      Tags:
+        - Key: Name
+          Value: IGAcc
+  
+  routeTableAssocIG:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref Pubsubnet
+      RouteTableId: !Ref IGAcc
+
+  IntAcc:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref IGAcc
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref igwName
+
+# Nested stack
+  Wordpress:
+    Type: "AWS::CloudFormation::Stack"
+    Properties:
+      TemplateURL: file://ec2.yaml
+      TimeoutInMinutes: 5
+
+Outputs:
+  VpcId:
+      Description: ID of created VPC
+      Value: !Ref myVPC
+      Export:
+        Name: VpcId
+  
+  PubsubnetId:
+      Description: ID of public subnet
+      Value: !Ref Pubsubnet
+      Export:
+        Name: PubsubnetId
+  
+  PrivsubnetId:
+      Description: ID of private subnet
+      Value: !Ref Privsubnet
+      Export:
+        Name: PrivsubnetId
