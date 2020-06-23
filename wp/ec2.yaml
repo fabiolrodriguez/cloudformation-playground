@@ -50,16 +50,16 @@ Resources:
             
 
   MyEIP:
-      Type: AWS::EC2::EIP
-      Properties:
-        InstanceId: !Ref EC2Instance
-        Domain: !ImportValue 'VpcId'
+    Type: AWS::EC2::EIP
+    Properties:
+      InstanceId: !Ref EC2Instance
+      Domain: !ImportValue 'VpcId'
 
   # Nested stack
   Wordpress:
     Type: "AWS::CloudFormation::Stack"
     Properties:
-      TemplateURL: file://ec2.yaml
+      TemplateURL: file://rds.yaml
       TimeoutInMinutes: 5
     
 Outputs:
