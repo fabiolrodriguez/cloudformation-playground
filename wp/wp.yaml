@@ -1,4 +1,4 @@
-AWSTemplateFormatVersion: 2020-20-06
+AWSTemplateFormatVersion: 2010-09-09
 Description: Working with nested stacks
 
 Resources: 
