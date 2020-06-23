@@ -57,9 +57,7 @@ Resources:
   DBSubnetGroup:
     Type: 'AWS::RDS::DBSubnetGroup'
     Properties:
-      DBSubnetGroupDescription: 
-        - !Ref 'AWS::StackName'
-        - !FindInMap [Config, Service, Name]        
+      DBSubnetGroupDescription: !Ref 'AWS::StackName'     
       SubnetIds: 
         - !ImportValue PrivsubnetId
         - !ImportValue PrivsubnetId2
