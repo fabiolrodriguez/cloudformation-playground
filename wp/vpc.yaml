@@ -70,7 +70,7 @@ Resources:
     Properties:
       TemplateURL: https://cfplay.s3.amazonaws.com/ec2.yaml
       TimeoutInMinutes: 5
-    DependsOn: VpcId
+    DependsOn: myVPC
 
 Outputs:
   VpcId:

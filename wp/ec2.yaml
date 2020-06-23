@@ -7,7 +7,7 @@ Resources:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: Enable SSH access via port 22 and 80
-      VpcId: !ImportValue 'VpcId'
+      VpcId: !Ref myVPC
       SecurityGroupIngress:
       - IpProtocol: tcp
         FromPort: 22
@@ -35,7 +35,7 @@ Resources:
           DeviceIndex: "0"
           GroupSet: 
             - !GetAtt "InstanceSecurityGroup.GroupId"
-          SubnetId: !ImportValue "PubsubnetId"
+          SubnetId: !Ref Pubsubnet
       UserData:
         Fn::Base64:
           !Sub |
@@ -53,7 +53,7 @@ Resources:
     Type: AWS::EC2::EIP
     Properties:
       InstanceId: !Ref EC2Instance
-      Domain: !ImportValue 'VpcId'
+      Domain: !Ref myVPC
 
   # Nested stack
   Wordpress:
@@ -61,7 +61,7 @@ Resources:
     Properties:
       TemplateURL: https://cfplay.s3.amazonaws.com/rds.yaml
       TimeoutInMinutes: 5
-    DependsOn: WPSG
+    DependsOn: EC2Instance
     
 Outputs:
   PublicIP:
