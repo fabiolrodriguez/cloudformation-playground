@@ -93,7 +93,7 @@ Resources:
 
   DBEndpoint:
     Description: 'The connection endpoint for the DB'
-    Value: !GetAtt 'DBInstance.Endpoint.Address'
+    Value: !GetAtt [DBInstance, Endpoint.Address]
     Export:
       Name: DBEndpoint
     
