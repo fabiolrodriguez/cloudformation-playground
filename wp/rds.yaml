@@ -90,10 +90,3 @@ Resources:
       VPCSecurityGroups:
       - !Ref DatabaseSecurityGroup
     
-  
-  # Nested stack
-  Wordpress:
-    Type: "AWS::CloudFormation::Stack"
-    Properties:
-      TemplateURL: file://ec2.yaml
-      TimeoutInMinutes: 5
