@@ -3,7 +3,7 @@ Resources:
   EC2Instance: 
     Type: AWS::EC2::Instance
     Properties:
-      InstanceType: "t2.small"
+      InstanceType: "t2.micro"
       SecurityGroups: [!Ref 'InstanceSecurityGroup']
       ImageId: "ami-062f7200baf2fa504"
       KeyName: "testeec2"
