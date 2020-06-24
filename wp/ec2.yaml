@@ -55,22 +55,22 @@ Resources:
             systemctl enable httpd
 
   Eth0:
-  Type: AWS::EC2::NetworkInterface
-  Properties:
-    GroupSet:
-      - !GetAtt "InstanceSecurityGroup.GroupId"
-    SubnetId: !ImportValue "PubsubnetId"
-    AssociatePublicIpAddress: "true"
+    Type: AWS::EC2::NetworkInterface
+    Properties:
+      GroupSet:
+        - !GetAtt "InstanceSecurityGroup.GroupId"
+      SubnetId: !ImportValue "PubsubnetId"
+      AssociatePublicIpAddress: "true"
 
   Eth1:
-  Type: AWS::EC2::NetworkInterface
-  Properties:
-    SubnetId: !ImportValue "PrivsubnetId"
+    Type: AWS::EC2::NetworkInterface
+    Properties:
+      SubnetId: !ImportValue "PrivsubnetId"
 
   Eth2:
-  Type: AWS::EC2::NetworkInterface
-  Properties:
-    SubnetId: !ImportValue "PrivsubnetId2"
+    Type: AWS::EC2::NetworkInterface
+    Properties:
+      SubnetId: !ImportValue "PrivsubnetId2"
 
 
   MyEIP:
