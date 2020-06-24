@@ -84,7 +84,7 @@ Resources:
         Ref: DBUser
       DBInstanceIdentifier:
         Ref: DBidentifier
-      PubliclyAccessible: "true"
+      PubliclyAccessible: "false"
       MultiAZ: "false"
       VPCSecurityGroups:
       - !Ref DatabaseSecurityGroup
