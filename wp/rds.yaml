@@ -83,10 +83,6 @@ Resources:
         Ref: DBidentifier
       PubliclyAccessible: "false"
       MultiAZ: "false"
-      Tags: 
-        - 
-          Key: Name
-          Value: "PostgreSQL Database"
       VPCSecurityGroups:
       - !Ref DatabaseSecurityGroup
     Type: "AWS::RDS::DBInstance"
