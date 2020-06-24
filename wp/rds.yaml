@@ -49,6 +49,7 @@ Resources:
     Properties:
       DBSubnetGroupDescription: 'Wordpress DB'     
       SubnetIds: 
+        - !ImportValue PubsubnetId
         - !ImportValue PrivsubnetId
         - !ImportValue PrivsubnetId2
 
