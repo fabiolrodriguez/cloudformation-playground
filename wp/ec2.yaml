@@ -31,18 +31,39 @@ Resources:
           DeleteOnTermination: "true"
           VolumeSize: "8"
       NetworkInterfaces: 
-        - NetworkInterfaceId: "eth0"
-          AssociatePublicIpAddress: "true"
+        - NetworkInterfaceId: !Ref "Eth0"
           DeviceIndex: "0"
-          GroupSet: 
-            - !GetAtt "InstanceSecurityGroup.GroupId"
-          SubnetId: !ImportValue "PubsubnetId"
-        - NetworkInterfaceId: "eth1"
+        - NetworkInterfaceId: !Ref "Eth1"
           DeviceIndex: "1"
-          SubnetId: !ImportValue "PrivsubnetId"
-        - NetworkInterfaceId: "eth2"
+        - NetworkInterfaceId: !Ref "Eth2"
           DeviceIndex: "2"
-          SubnetId: !ImportValue "PrivsubnetId2"
+    
+    Eth0:
+    Type: AWS::EC2::NetworkInterface
+    Properties:
+      Description: eth0
+      GroupSet:
+        - !GetAtt "InstanceSecurityGroup.GroupId"
+      SubnetId: !ImportValue "PubsubnetId"
+      AssociatePublicIpAddress: "true"
+
+    Eth1:
+    Type: AWS::EC2::NetworkInterface
+    Properties:
+      Description: eth1
+      GroupSet:
+        - !GetAtt "InstanceSecurityGroup.GroupId"
+      SubnetId: !ImportValue "PrivsubnetId"
+
+    Eth2:
+    Type: AWS::EC2::NetworkInterface
+    Properties:
+      Description: eth2
+      GroupSet:
+        - !GetAtt "InstanceSecurityGroup.GroupId"
+      SubnetId: !ImportValue "PrivsubnetId2"
+
+
       UserData:
         Fn::Base64:
           !Sub |
