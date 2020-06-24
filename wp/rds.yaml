@@ -49,7 +49,6 @@ Resources:
     Properties:
       DBSubnetGroupDescription: 'Wordpress DB'     
       SubnetIds: 
-        - !ImportValue PubsubnetId
         - !ImportValue PrivsubnetId
         - !ImportValue PrivsubnetId2
 
@@ -82,7 +81,7 @@ Resources:
         Ref: DBUser
       DBInstanceIdentifier:
         Ref: DBidentifier
-      PubliclyAccessible: "true"
+      PubliclyAccessible: "false"
       MultiAZ: "false"
       Tags: 
         - 
