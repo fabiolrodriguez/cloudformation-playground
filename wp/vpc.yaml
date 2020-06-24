@@ -75,9 +75,13 @@ Resources:
   routeTableAssocIG:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
-      SubnetIds: 
-        - !Ref Pubsubnet
-        - !Ref Pubsubnet2
+      SubnetIds: !Ref Pubsubnet
+      RouteTableId: !Ref IGAcc
+
+  routeTableAssocIG2:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetIds: !Ref Pubsubnet2
       RouteTableId: !Ref IGAcc
 
   IntAcc:
