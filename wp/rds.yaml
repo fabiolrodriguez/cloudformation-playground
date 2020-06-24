@@ -76,7 +76,7 @@ Resources:
       DBName: 
         Ref: DBName
       Engine: mysql
-      EngineVersion: "8.0"
+      EngineVersion: "5.7"
       MasterUserPassword: 
         Ref: DBPassword
       MasterUsername: 
