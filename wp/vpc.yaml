@@ -21,6 +21,16 @@ Resources:
         - Key: Name
           Value: Pubsubnet
 
+  Pubsubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: us-east-1b
+      VpcId: !Ref myVPC
+      CidrBlock: 10.10.4.0/24
+      Tags:
+        - Key: Name
+          Value: Pubsubnet2
+
   Privsubnet:
     Type: AWS::EC2::Subnet
     Properties:
@@ -87,6 +97,12 @@ Outputs:
       Value: !Ref Pubsubnet
       Export:
         Name: PubsubnetId
+
+  PubsubnetId2:
+      Description: ID of public subnet
+      Value: !Ref Pubsubnet2
+      Export:
+        Name: PubsubnetId2
   
   PrivsubnetId:
       Description: ID of private subnet
