@@ -81,7 +81,7 @@ Resources:
         Ref: DBUser
       DBInstanceIdentifier:
         Ref: DBidentifier
-      PubliclyAccessible: "false"
+      PubliclyAccessible: "true"
       MultiAZ: "false"
       Tags: 
         - 
