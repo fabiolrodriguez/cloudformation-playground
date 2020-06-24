@@ -51,7 +51,7 @@ Resources:
       SubnetIds: 
         - !ImportValue PrivsubnetId
         - !ImportValue PrivsubnetId2
-        - !ImportValue PubsubnetId
+
   DatabaseSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
