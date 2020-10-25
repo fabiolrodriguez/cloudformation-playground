@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: example template for Postgres RDS
+Description: example template for MySQL RDS
 Mappings:
   Config:
     Service:
